@@ -1,3 +1,8 @@
+1.2.2
+=====
+
+* Renamed Zip module to RubyZip. All tests passed in Ruby v2.2.7
+
 1.2.1
 =====
 
