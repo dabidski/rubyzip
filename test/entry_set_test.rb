@@ -2,38 +2,38 @@ require 'test_helper'
 
 class ZipEntrySetTest < MiniTest::Test
   ZIP_ENTRIES = [
-    ::Zip::Entry.new('zipfile.zip', 'name1', 'comment1'),
-    ::Zip::Entry.new('zipfile.zip', 'name3', 'comment1'),
-    ::Zip::Entry.new('zipfile.zip', 'name2', 'comment1'),
-    ::Zip::Entry.new('zipfile.zip', 'name4', 'comment1'),
-    ::Zip::Entry.new('zipfile.zip', 'name5', 'comment1'),
-    ::Zip::Entry.new('zipfile.zip', 'name6', 'comment1')
+    ::RubyZip::Entry.new('zipfile.zip', 'name1', 'comment1'),
+    ::RubyZip::Entry.new('zipfile.zip', 'name3', 'comment1'),
+    ::RubyZip::Entry.new('zipfile.zip', 'name2', 'comment1'),
+    ::RubyZip::Entry.new('zipfile.zip', 'name4', 'comment1'),
+    ::RubyZip::Entry.new('zipfile.zip', 'name5', 'comment1'),
+    ::RubyZip::Entry.new('zipfile.zip', 'name6', 'comment1')
   ]
 
   def setup
-    @zipEntrySet = ::Zip::EntrySet.new(ZIP_ENTRIES)
+    @zipEntrySet = ::RubyZip::EntrySet.new(ZIP_ENTRIES)
   end
 
   def teardown
-    ::Zip.reset!
+    ::RubyZip.reset!
   end
 
   def test_include
     assert(@zipEntrySet.include?(ZIP_ENTRIES.first))
-    assert(!@zipEntrySet.include?(::Zip::Entry.new('different.zip', 'different', 'aComment')))
+    assert(!@zipEntrySet.include?(::RubyZip::Entry.new('different.zip', 'different', 'aComment')))
   end
 
   def test_size
     assert_equal(ZIP_ENTRIES.size, @zipEntrySet.size)
     assert_equal(ZIP_ENTRIES.size, @zipEntrySet.length)
-    @zipEntrySet << ::Zip::Entry.new('a', 'b', 'c')
+    @zipEntrySet << ::RubyZip::Entry.new('a', 'b', 'c')
     assert_equal(ZIP_ENTRIES.size + 1, @zipEntrySet.length)
   end
 
   def test_add
-    zes = ::Zip::EntrySet.new
-    entry1 = ::Zip::Entry.new('zf.zip', 'name1')
-    entry2 = ::Zip::Entry.new('zf.zip', 'name2')
+    zes = ::RubyZip::EntrySet.new
+    entry1 = ::RubyZip::Entry.new('zf.zip', 'name1')
+    entry2 = ::RubyZip::Entry.new('zf.zip', 'name2')
     zes << entry1
     assert(zes.include?(entry1))
     zes.push(entry2)
@@ -66,28 +66,28 @@ class ZipEntrySetTest < MiniTest::Test
   end
 
   def test_find_entry
-    entries = [::Zip::Entry.new('zipfile.zip', 'MiXeDcAsEnAmE', 'comment1')]
+    entries = [::RubyZip::Entry.new('zipfile.zip', 'MiXeDcAsEnAmE', 'comment1')]
 
-    ::Zip.case_insensitive_match = true
-    zipEntrySet = ::Zip::EntrySet.new(entries)
+    ::RubyZip.case_insensitive_match = true
+    zipEntrySet = ::RubyZip::EntrySet.new(entries)
     assert_equal(entries[0], zipEntrySet.find_entry('MiXeDcAsEnAmE'))
     assert_equal(entries[0], zipEntrySet.find_entry('mixedcasename'))
 
-    ::Zip.case_insensitive_match = false
-    zipEntrySet = ::Zip::EntrySet.new(entries)
+    ::RubyZip.case_insensitive_match = false
+    zipEntrySet = ::RubyZip::EntrySet.new(entries)
     assert_equal(entries[0], zipEntrySet.find_entry('MiXeDcAsEnAmE'))
     assert_nil(zipEntrySet.find_entry('mixedcasename'))
   end
 
   def test_entries_with_sort
-    ::Zip.sort_entries = true
+    ::RubyZip.sort_entries = true
     assert_equal(ZIP_ENTRIES.sort, @zipEntrySet.entries)
-    ::Zip.sort_entries = false
+    ::RubyZip.sort_entries = false
     assert_equal(ZIP_ENTRIES, @zipEntrySet.entries)
   end
 
   def test_entries_sorted_in_each
-    ::Zip.sort_entries = true
+    ::RubyZip.sort_entries = true
     arr = []
     @zipEntrySet.each do |entry|
       arr << entry
@@ -96,7 +96,7 @@ class ZipEntrySetTest < MiniTest::Test
   end
 
   def test_compound
-    newEntry = ::Zip::Entry.new('zf.zip', 'new entry', "new entry's comment")
+    newEntry = ::RubyZip::Entry.new('zf.zip', 'new entry', "new entry's comment")
     assert_equal(ZIP_ENTRIES.size, @zipEntrySet.size)
     @zipEntrySet << newEntry
     assert_equal(ZIP_ENTRIES.size + 1, @zipEntrySet.size)
@@ -117,11 +117,11 @@ class ZipEntrySetTest < MiniTest::Test
 
   def test_parent
     entries = [
-      ::Zip::Entry.new('zf.zip', 'a/'),
-      ::Zip::Entry.new('zf.zip', 'a/b/'),
-      ::Zip::Entry.new('zf.zip', 'a/b/c/')
+      ::RubyZip::Entry.new('zf.zip', 'a/'),
+      ::RubyZip::Entry.new('zf.zip', 'a/b/'),
+      ::RubyZip::Entry.new('zf.zip', 'a/b/c/')
     ]
-    entrySet = ::Zip::EntrySet.new(entries)
+    entrySet = ::RubyZip::EntrySet.new(entries)
 
     assert_nil(entrySet.parent(entries[0]))
     assert_equal(entries[0], entrySet.parent(entries[1]))
@@ -136,12 +136,12 @@ class ZipEntrySetTest < MiniTest::Test
 
   def test_glob2
     entries = [
-      ::Zip::Entry.new('zf.zip', 'a/'),
-      ::Zip::Entry.new('zf.zip', 'a/b/b1'),
-      ::Zip::Entry.new('zf.zip', 'a/b/c/'),
-      ::Zip::Entry.new('zf.zip', 'a/b/c/c1')
+      ::RubyZip::Entry.new('zf.zip', 'a/'),
+      ::RubyZip::Entry.new('zf.zip', 'a/b/b1'),
+      ::RubyZip::Entry.new('zf.zip', 'a/b/c/'),
+      ::RubyZip::Entry.new('zf.zip', 'a/b/c/c1')
     ]
-    entrySet = ::Zip::EntrySet.new(entries)
+    entrySet = ::RubyZip::EntrySet.new(entries)
 
     assert_equal(entries[0, 1], entrySet.glob('*'))
     # assert_equal(entries[FIXME], entrySet.glob("**"))
@@ -152,11 +152,11 @@ class ZipEntrySetTest < MiniTest::Test
 
   def test_glob3
     entries = [
-      ::Zip::Entry.new('zf.zip', 'a/a'),
-      ::Zip::Entry.new('zf.zip', 'a/b'),
-      ::Zip::Entry.new('zf.zip', 'a/c')
+      ::RubyZip::Entry.new('zf.zip', 'a/a'),
+      ::RubyZip::Entry.new('zf.zip', 'a/b'),
+      ::RubyZip::Entry.new('zf.zip', 'a/c')
     ]
-    entrySet = ::Zip::EntrySet.new(entries)
+    entrySet = ::RubyZip::EntrySet.new(entries)
 
     assert_equal(entries[0, 2].sort, entrySet.glob('a/{a,b}').sort)
   end

@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'zip/ioextras'
+require 'ruby_zip/ioextras'
 
 class AbstractInputStreamTest < MiniTest::Test
   # AbstractInputStream subclass that provides a read method
@@ -9,7 +9,7 @@ class AbstractInputStreamTest < MiniTest::Test
                 'this is the last line']
   TEST_STRING = TEST_LINES.join
   class TestAbstractInputStream
-    include ::Zip::IOExtras::AbstractInputStream
+    include ::RubyZip::IOExtras::AbstractInputStream
 
     def initialize(aString)
       super()

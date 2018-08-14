@@ -3,9 +3,9 @@
 $VERBOSE = true
 
 require 'rubyunit'
-require 'zip'
+require 'ruby_zip'
 
-include Zip
+include RubyZip
 
 Dir.chdir "test"
 

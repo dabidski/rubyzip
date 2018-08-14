@@ -2,9 +2,9 @@
 
 $: << '../lib'
 
-require 'zip'
+require 'ruby_zip'
 
-include Zip
+include RubyZip
 
 OutputStream.open('simple.zip') do |zos|
   zos.put_next_entry 'entry.txt'

@@ -2,13 +2,13 @@
 
 $: << '../lib'
 
-require 'zip/filesystem'
+require 'ruby_zip/filesystem'
 
 EXAMPLE_ZIP = 'filesystem.zip'
 
 File.delete(EXAMPLE_ZIP) if File.exist?(EXAMPLE_ZIP)
 
-Zip::File.open(EXAMPLE_ZIP, Zip::File::CREATE) do |zf|
+RubyZip::File.open(EXAMPLE_ZIP, RubyZip::File::CREATE) do |zf|
   zf.file.open('file1.txt', 'w') { |os| os.write 'first file1.txt' }
   zf.dir.mkdir('dir1')
   zf.dir.chdir('dir1')
@@ -20,7 +20,7 @@ Zip::File.open(EXAMPLE_ZIP, Zip::File::CREATE) do |zf|
   puts "Entries:                   #{zf.entries.join(', ')}"
 end
 
-Zip::File.open(EXAMPLE_ZIP) do |zf|
+RubyZip::File.open(EXAMPLE_ZIP) do |zf|
   puts "Entries from reloaded zip: #{zf.entries.join(', ')}"
 end
 

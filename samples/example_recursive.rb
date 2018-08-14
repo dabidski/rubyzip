@@ -1,4 +1,4 @@
-require 'zip'
+require 'ruby_zip'
 
 # This is a simple example which uses rubyzip to
 # recursively generate a zip file from the contents of
@@ -21,7 +21,7 @@ class ZipFileGenerator
   def write
     entries = Dir.entries(@input_dir) - %w(. ..)
 
-    ::Zip::File.open(@output_file, ::Zip::File::CREATE) do |io|
+    ::RubyZip::File.open(@output_file, ::RubyZip::File::CREATE) do |io|
       write_entries entries, '', io
     end
   end

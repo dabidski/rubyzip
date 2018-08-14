@@ -3,32 +3,32 @@ require 'test_helper'
 
 class ErrorsTest < MiniTest::Test
   def test_rescue_legacy_zip_error
-    raise ::Zip::Error
-  rescue ::Zip::ZipError
+    raise ::RubyZip::Error
+  rescue ::RubyZip::ZipError
   end
 
   def test_rescue_legacy_zip_entry_exists_error
-    raise ::Zip::EntryExistsError
-  rescue ::Zip::ZipEntryExistsError
+    raise ::RubyZip::EntryExistsError
+  rescue ::RubyZip::ZipEntryExistsError
   end
 
   def test_rescue_legacy_zip_destination_file_exists_error
-    raise ::Zip::DestinationFileExistsError
-  rescue ::Zip::ZipDestinationFileExistsError
+    raise ::RubyZip::DestinationFileExistsError
+  rescue ::RubyZip::ZipDestinationFileExistsError
   end
 
   def test_rescue_legacy_zip_compression_method_error
-    raise ::Zip::CompressionMethodError
-  rescue ::Zip::ZipCompressionMethodError
+    raise ::RubyZip::CompressionMethodError
+  rescue ::RubyZip::ZipCompressionMethodError
   end
 
   def test_rescue_legacy_zip_entry_name_error
-    raise ::Zip::EntryNameError
-  rescue ::Zip::ZipEntryNameError
+    raise ::RubyZip::EntryNameError
+  rescue ::RubyZip::ZipEntryNameError
   end
 
   def test_rescue_legacy_zip_internal_error
-    raise ::Zip::InternalError
-  rescue ::Zip::ZipInternalError
+    raise ::RubyZip::InternalError
+  rescue ::RubyZip::ZipInternalError
   end
 end

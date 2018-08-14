@@ -7,7 +7,7 @@ class ZipFileExtractDirectoryTest < MiniTest::Test
 
   def open_zip(&aProc)
     assert(!aProc.nil?)
-    ::Zip::File.open(TestZipFile::TEST_ZIP4.zip_name, &aProc)
+    ::RubyZip::File.open(TestZipFile::TEST_ZIP4.zip_name, &aProc)
   end
 
   def extract_test_dir(&aProc)
@@ -36,7 +36,7 @@ class ZipFileExtractDirectoryTest < MiniTest::Test
 
   def test_extract_directory_exists_as_file
     File.open(TEST_OUT_NAME, 'w') { |f| f.puts 'something' }
-    assert_raises(::Zip::DestinationFileExistsError) { extract_test_dir }
+    assert_raises(::RubyZip::DestinationFileExistsError) { extract_test_dir }
   end
 
   def test_extract_directory_exists_as_file_overwrite

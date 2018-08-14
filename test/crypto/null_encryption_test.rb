@@ -2,7 +2,7 @@ require 'test_helper'
 
 class NullEncrypterTest < MiniTest::Test
   def setup
-    @encrypter = ::Zip::NullEncrypter.new
+    @encrypter = ::RubyZip::NullEncrypter.new
   end
 
   def test_header_bytesize
@@ -32,7 +32,7 @@ end
 
 class NullDecrypterTest < MiniTest::Test
   def setup
-    @decrypter = ::Zip::NullDecrypter.new
+    @decrypter = ::RubyZip::NullDecrypter.new
   end
 
   def test_header_bytesize

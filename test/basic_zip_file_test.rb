@@ -4,7 +4,7 @@ class BasicZipFileTest < MiniTest::Test
   include AssertEntry
 
   def setup
-    @zip_file = ::Zip::File.new(TestZipFile::TEST_ZIP2.zip_name)
+    @zip_file = ::RubyZip::File.new(TestZipFile::TEST_ZIP2.zip_name)
     @testEntryNameIndex = 0
   end
 
@@ -28,7 +28,7 @@ class BasicZipFileTest < MiniTest::Test
   def test_foreach
     count = 0
     visited = {}
-    ::Zip::File.foreach(TestZipFile::TEST_ZIP2.zip_name) do |entry|
+    ::RubyZip::File.foreach(TestZipFile::TEST_ZIP2.zip_name) do |entry|
       assert(TestZipFile::TEST_ZIP2.entry_names.include?(entry.name))
       assert(!visited.include?(entry.name))
       visited[entry.name] = nil

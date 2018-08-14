@@ -4,17 +4,17 @@ $VERBOSE = true
 
 $: << '../lib'
 
-require 'zip'
+require 'ruby_zip'
 require 'find'
 
-module Zip
-  module ZipFind
+module RubyZip
+  module RubyZipFind
     def self.find(path, zipFilePattern = /\.zip$/i)
       Find.find(path) do |fileName|
         yield(fileName)
         next unless zipFilePattern.match(fileName) && File.file?(fileName)
         begin
-          Zip::File.foreach(fileName) do |zipEntry|
+          RubyZip::File.foreach(fileName) do |zipEntry|
             yield(fileName + File::SEPARATOR + zipEntry.to_s)
           end
         rescue Errno::EACCES => ex
@@ -32,14 +32,14 @@ module Zip
 end
 
 if __FILE__ == $0
-  module ZipFindConsoleRunner
+  module RubyZipFindConsoleRunner
     PATH_ARG_INDEX = 0
     FILENAME_PATTERN_ARG_INDEX = 1
     ZIPFILE_PATTERN_ARG_INDEX = 2
 
     def self.run(args)
       check_args(args)
-      Zip::ZipFind.find_file(args[PATH_ARG_INDEX],
+      RubyZip::ZipFind.find_file(args[PATH_ARG_INDEX],
                              args[FILENAME_PATTERN_ARG_INDEX],
                              args[ZIPFILE_PATTERN_ARG_INDEX]) do |fileName|
         report_entry_found fileName

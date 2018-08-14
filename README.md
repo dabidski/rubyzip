@@ -40,14 +40,14 @@ gem 'rubyzip'
 
 ```ruby
 require 'rubygems'
-require 'zip'
+require 'ruby_zip'
 
 folder = "Users/me/Desktop/stuff_to_zip"
 input_filenames = ['image.jpg', 'description.txt', 'stats.csv']
 
 zipfile_name = "/Users/me/Desktop/archive.zip"
 
-Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+RubyZip::File.open(zipfile_name, RubyZip::File::CREATE) do |zipfile|
   input_filenames.each do |filename|
     # Two arguments:
     # - The name of the file as it will appear in the archive
@@ -62,7 +62,7 @@ end
 Copy from [here](https://github.com/rubyzip/rubyzip/blob/05916bf89181e1955118fd3ea059f18acac28cc8/samples/example_recursive.rb )
 
 ```ruby
-require 'zip'
+require 'ruby_zip'
 
 # This is a simple example which uses rubyzip to
 # recursively generate a zip file from the contents of
@@ -85,7 +85,7 @@ class ZipFileGenerator
   def write
     entries = Dir.entries(@input_dir) - %w(. ..)
 
-    ::Zip::File.open(@output_file, ::Zip::File::CREATE) do |io|
+    ::RubyZip::File.open(@output_file, ::RubyZip::File::CREATE) do |io|
       write_entries entries, '', io
     end
   end
@@ -123,7 +123,7 @@ end
 
 ### Save zip archive entries in sorted by name state
 
-To save zip archives in sorted order like below, you need to set `::Zip.sort_entries` to `true`
+To save zip archives in sorted order like below, you need to set `::RubyZip.sort_entries` to `true`
 
 ```
 Vegetable/
@@ -152,7 +152,7 @@ When modifying a zip archive the file permissions of the archive are preserved.
 ### Reading a Zip file
 
 ```ruby
-Zip::File.open('foo.zip') do |zip_file|
+RubyZip::File.open('foo.zip') do |zip_file|
   # Handle entries one by one
   zip_file.each do |entry|
     # Extract to file/directory/symlink
@@ -169,9 +169,9 @@ Zip::File.open('foo.zip') do |zip_file|
 end
 ```
 
-#### Notice about ::Zip::InputStream
+#### Notice about ::RubyZip::InputStream
 
-`::Zip::InputStream` usable for fast reading zip file content because it not read Central directory.
+`::RubyZip::InputStream` usable for fast reading zip file content because it not read Central directory.
 
 But there is one exception when it is not working - General Purpose Flag Bit 3.
 
@@ -179,14 +179,14 @@ But there is one exception when it is not working - General Purpose Flag Bit 3.
 If bit 3 (0x08) of the general-purpose flags field is set, then the CRC-32 and file sizes are not known when the header is written. The fields in the local header are filled with zero, and the CRC-32 and size are appended in a 12-byte structure (optionally preceded by a 4-byte signature) immediately after the compressed data
 ```
 
-If `::Zip::InputStream` finds such entry in the zip archive it will raise an exception.
+If `::RubyZip::InputStream` finds such entry in the zip archive it will raise an exception.
 
 ### Password Protection (Experimental)
 
 Rubyzip supports reading/writing zip files with traditional zip encryption (a.k.a. "ZipCrypto"). AES encryption is not yet supported. It can be used with buffer streams, e.g.:
 
 ```ruby
-Zip::OutputStream.write_buffer(::StringIO.new(''), Zip::TraditionalEncrypter.new('password')) do |out|
+RubyZip::OutputStream.write_buffer(::StringIO.new(''), RubyZip::TraditionalEncrypter.new('password')) do |out|
   out.put_next_entry("my_file.txt")
   out.write my_data
 end.string
@@ -201,7 +201,7 @@ This is an experimental feature and the interface for encryption may change in f
 Use `write_buffer` instead `open`. Thanks to @jondruse
 
 ```ruby
-buffer = Zip::OutputStream.write_buffer do |out|
+buffer = RubyZip::OutputStream.write_buffer do |out|
   @zip_file.entries.each do |e|
     unless [DOCUMENT_FILE_PATH, RELS_FILE_PATH].include?(e.name)
       out.put_next_entry(e.name)
@@ -224,7 +224,7 @@ File.open(new_path, "wb") {|f| f.write(buffer.string) }
 By default, rubyzip will not overwrite files if they already exist inside of the extracted path.  To change this behavior, you may specify a configuration option like so:
 
 ```ruby
-Zip.on_exists_proc = true
+RubyZip.on_exists_proc = true
 ```
 
 If you're using rubyzip with rails, consider placing this snippet of code in an initializer file such as `config/initializers/rubyzip.rb`
@@ -232,32 +232,32 @@ If you're using rubyzip with rails, consider placing this snippet of code in an 
 Additionally, if you want to configure rubyzip to overwrite existing files while creating a .zip file, you can do so with the following:
 
 ```ruby
-Zip.continue_on_exists_proc = true
+RubyZip.continue_on_exists_proc = true
 ```
 
 If you want to store non-english names and want to open them on Windows(pre 7) you need to set this option:
 
 ```ruby
-Zip.unicode_names = true
+RubyZip.unicode_names = true
 ```
 
 Some zip files might have an invalid date format, which will raise a warning. You can hide this warning with the following setting:
 
 ```ruby
-Zip.warn_invalid_date = false
+RubyZip.warn_invalid_date = false
 ```
 
 You can set the default compression level like so:
 
 ```ruby
-Zip.default_compression = Zlib::DEFAULT_COMPRESSION
+RubyZip.default_compression = Zlib::DEFAULT_COMPRESSION
 ```
 It defaults to `Zlib::DEFAULT_COMPRESSION`. Possible values are `Zlib::BEST_COMPRESSION`, `Zlib::DEFAULT_COMPRESSION` and `Zlib::NO_COMPRESSION`
 
 You can set multiple settings at the same time by using a block:
 
 ```ruby
-  Zip.setup do |c|
+  RubyZip.setup do |c|
     c.on_exists_proc = true
     c.continue_on_exists_proc = true
     c.unicode_names = true
@@ -268,7 +268,7 @@ You can set multiple settings at the same time by using a block:
 By default, Zip64 support is disabled for writing. To enable it do this:
 
 ```ruby
-Zip.write_zip64_support = true
+RubyZip.write_zip64_support = true
 ```
 
 _NOTE_: If you will enable Zip64 writing then you will need zip extractor with Zip64 support to extract archive.

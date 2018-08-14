@@ -18,7 +18,7 @@
 * Fixes an exception thrown when decoding some weird .zip files #248
 * Use duck typing with IO methods #244
 * Added error for empty (zero bit) zip file #242
-* Accept StringIO in Zip.open_buffer #238
+* Accept StringIO in RubyZip.open_buffer #238
 * Do something more expected with new file permissions #237
 * Case insensitivity option for #find_entry #222
 * Fixes in documentation and examples
@@ -27,7 +27,7 @@
 =====
 
 * Fix UTF-8 support for comments
-* `Zip.sort_entries` working for zip output
+* `RubyZip.sort_entries` working for zip output
 * Prevent tempfile path from being unlinked by garbage collection
 * NTFS Extra Field (0x000a) support
 * Use String#tr instead of String#gsub
@@ -38,15 +38,15 @@
 1.1.6
 =====
 
-* Revert "Return created zip file from Zip::File.open when supplied a block"
+* Revert "Return created zip file from RubyZip::File.open when supplied a block"
 
 1.1.5
 =====
 
 * Treat empty file as non-exists (@layerssss)
 * Revert regression commit
-* Return created zip file from Zip::File.open when supplied a block (@tpickett66)
-* Zip::Entry::DEFLATED is forced on every file (@mehmetc)
+* Return created zip file from RubyZip::File.open when supplied a block (@tpickett66)
+* RubyZip::Entry::DEFLATED is forced on every file (@mehmetc)
 * Add InputStream#ungetc (@zacstewart)
 * Alias for legacy error names (@orien)
 
@@ -54,7 +54,7 @@
 =====
 
 * Don't send empty string to stream (@mrloop)
-* Zip::Entry::DEFLATED was forced on every file (@mehmetc)
+* RubyZip::Entry::DEFLATED was forced on every file (@mehmetc)
 * Alias for legacy error names (@orien)
 
 1.1.3
@@ -66,7 +66,7 @@
 1.1.2 
 =====
 
-* Fix compatibility of ::Zip::File.write_buffer
+* Fix compatibility of ::RubyZip::File.write_buffer
 
 1.1.1
 =====
@@ -216,7 +216,7 @@ extra-field support.
 object that can be used like Dir and File only for the contents of the
 zip file.
 * Added sample application zipfind which works like Find.find, only
-Zip::ZipFind.find traverses into zip archives too.
+RubyZip::ZipFind.find traverses into zip archives too.
 * FIX: AbstractInputStream.each_line with non-default separator
 
 
@@ -246,8 +246,8 @@ cause problems.
 0.4.0
 =====
 
-* Zip::ZipFile is now mutable and provides a more convenient way of
-modifying zip archives than Zip::ZipOutputStream. Operations for
+* RubyZip::ZipFile is now mutable and provides a more convenient way of
+modifying zip archives than RubyZip::ZipOutputStream. Operations for
 adding, extracting, renaming, replacing and removing entries to zip
 archives are now available.
 

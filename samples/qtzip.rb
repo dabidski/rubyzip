@@ -6,8 +6,8 @@ $: << '../lib'
 
 require 'Qt'
 system('rbuic -o zipdialogui.rb zipdialogui.ui')
-require 'zipdialogui.rb'
-require 'zip'
+require 'ruby_zipdialogui.rb'
+require 'ruby_zip'
 
 a = Qt::Application.new(ARGV)
 
@@ -21,11 +21,11 @@ class ZipDialog < ZipDialogUI
   end
 
   def zipfile(&proc)
-    Zip::File.open(@zip_filename, &proc)
+    RubyZip::File.open(@zip_filename, &proc)
   end
 
   def each(&proc)
-    Zip::File.foreach(@zip_filename, &proc)
+    RubyZip::File.foreach(@zip_filename, &proc)
   end
 
   def refresh

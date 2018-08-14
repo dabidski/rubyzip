@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'zip/filesystem'
+require 'ruby_zip/filesystem'
 
 class ZipFsFileMutatingTest < MiniTest::Test
   TEST_ZIP = 'test/data/generated/zipWithDirs_copy.zip'
@@ -19,7 +19,7 @@ class ZipFsFileMutatingTest < MiniTest::Test
   end
 
   def test_open_write
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       zf.file.open('test_open_write_entry', 'w') do |f|
         f.write "This is what I'm writing"
       end
@@ -36,31 +36,31 @@ class ZipFsFileMutatingTest < MiniTest::Test
   end
 
   def test_rename
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       assert_raises(Errno::ENOENT, '') do
         zf.file.rename('NoSuchFile', 'bimse')
       end
       zf.file.rename('file1', 'newNameForFile1')
     end
 
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       assert(!zf.file.exists?('file1'))
       assert(zf.file.exists?('newNameForFile1'))
     end
   end
 
   def test_chmod
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       zf.file.chmod(0765, 'file1')
     end
 
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       assert_equal(0100765,  zf.file.stat('file1').mode)
     end
   end
 
   def do_test_delete_or_unlink(symbol)
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       assert(zf.file.exists?('dir2/dir21/dir221/file2221'))
       zf.file.send(symbol, 'dir2/dir21/dir221/file2221')
       assert(!zf.file.exists?('dir2/dir21/dir221/file2221'))
@@ -76,7 +76,7 @@ class ZipFsFileMutatingTest < MiniTest::Test
       assert_raises(Errno::EISDIR) { zf.file.send(symbol, 'dir1/dir11/') }
     end
 
-    ::Zip::File.open(TEST_ZIP) do |zf|
+    ::RubyZip::File.open(TEST_ZIP) do |zf|
       assert(!zf.file.exists?('dir2/dir21/dir221/file2221'))
       assert(!zf.file.exists?('dir1/file11'))
       assert(!zf.file.exists?('dir1/file12'))

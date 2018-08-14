@@ -5,7 +5,7 @@ $: << '../lib'
 $VERBOSE = true
 
 require 'gtk'
-require 'zip'
+require 'ruby_zip'
 
 class MainApp < Gtk::Window
   def initialize
@@ -67,7 +67,7 @@ class MainApp < Gtk::Window
   end
 
   def open_zip(filename)
-    @zipfile = Zip::File.open(filename)
+    @zipfile = RubyZip::File.open(filename)
     @clist.clear
     @zipfile.each do |entry|
       @clist.append([entry.name,

@@ -25,7 +25,7 @@ class ExampleRecursiveTest < MiniTest::Test
   private
 
   def unzip(file = OUTPUT_DIRECTORY)
-    Zip::File.open(file) do |zip_file|
+    RubyZip::File.open(file) do |zip_file|
       zip_file.each do |f|
         file_path = File.join(TEMP_DIRECTORY, f.name)
         FileUtils.mkdir_p(File.dirname(file_path))

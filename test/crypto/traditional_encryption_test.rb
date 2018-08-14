@@ -2,8 +2,8 @@ require 'test_helper'
 
 class TraditionalEncrypterTest < MiniTest::Test
   def setup
-    @mtime = ::Zip::DOSTime.new(2014, 12, 17, 15, 56, 24)
-    @encrypter = ::Zip::TraditionalEncrypter.new('password')
+    @mtime = ::RubyZip::DOSTime.new(2014, 12, 17, 15, 56, 24)
+    @encrypter = ::RubyZip::TraditionalEncrypter.new('password')
   end
 
   def test_header_bytesize
@@ -48,7 +48,7 @@ end
 
 class TraditionalDecrypterTest < MiniTest::Test
   def setup
-    @decrypter = ::Zip::TraditionalDecrypter.new('password')
+    @decrypter = ::RubyZip::TraditionalDecrypter.new('password')
   end
 
   def test_header_bytesize
